@@ -1,0 +1,21 @@
+body {
+    background-color: #F0F8FF;
+    width: auto;
+}
+
+.chooser {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.chooser-header {
+    text-align: center;
+}
+
+.chooser-buttons {
+    font-size: 20px
+}
+
+.styleRow {
+    font-family: 'Open Sans', sans-serif;
+}
