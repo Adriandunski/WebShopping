@@ -17,19 +17,18 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" xmlns:th="http://www.thymeleaf.org">
 
-        <div class="card mb-3">
+        <div class="card mb-3" th:each="i : ${items}">
             <div class="row no-gutters">
                 <div class="col-md-2">
-                    <img src="https://botland.com.pl/img/art/inne/04312_2.jpg" class="card-img">
+                    <img src=i.getItemImg class="card-img">
                 </div>
                 <div class="col-md-7">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text styleRow">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut libero non
-                            nisl suscipit volutpat. Nulla auctor ut justo sed varius. Nullam tempor venenatis scelerisque.
-                            Duis vitae congue sem.
+                        <h5 class="card-title">i.getItemName</h5>
+                        <p class="card-text styleRow">
+                            i.getItemDes
                         </p>
                         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                     </div>
