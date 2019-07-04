@@ -20,25 +20,23 @@
         <div class="row">
             <div class="col-md-2">
 
-                <div class="chooser">
-                    <div class="chooser-header">
-                        <h5> Producenci</h5>
-                    </div>
-                    <div class="chooser-buttons">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="grindProduce" id="grindProduce1" value="option1">
-                            <label class="form-check-label" for="grindProduce1">
-                                Intel
-                            </label>
+                <form th:action="@{/choosed/{param}/filters(param=${content.getContentName()})}" th:object="${company}" method="post" >
+                    <div class="chooser">
+                        <div class="chooser-header">
+                            <h5 th:text="${content.getContentName()}"></h5>
+                            <h5> Producenci</h5>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="grindProduce" id="grindProduce2" value="option2">
-                            <label class="form-check-label" for="grindProduce2">
-                                AMD
-                            </label>
+                        <div class="chooser-buttons">
+                            <div class="form-check" th:each="p : ${producers}">
+                                <input class="form-check-input" type="checkbox" name="compa" th:checked="${p.getIsCheck()}" th:value="${p.getNameCheckBox()}">
+                                <label class="form-check-label" th:text="${p.getNameCheckBox()}">
+                                    Intel
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary btn-block">Filtruj</button>
+                </form>
 
                 <div class="chooser">
                     <div class="chooser-header">
@@ -46,19 +44,19 @@
                     </div>
                     <div class="chooser-buttons">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios1" value="option3">
+                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios1" value="option1">
                             <label class="form-check-label" for="gridRadios1">
                                 2
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option4">
+                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option2">
                             <label class="form-check-label" for="gridRadios2">
                                 4
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option4">
+                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option3">
                             <label class="form-check-label" for="gridRadios2">
                                 6
                             </label>
@@ -72,19 +70,20 @@
                     </div>
                 </div>
 
+                <button type="button" class="btn btn-primary btn-block">Filtruj</button>
 
             </div>
 
             <div class="col-md-10">
-                <div class="card mb-3" th:each="i : ${items}">
+                <div class="card mb-3" th:each="p : ${content.getProducts()}">
                     <div class="row no-gutters">
-                        <div class="col-md-2">
-                            <img th:src="${i.getItemImg()}" class="card-img">
+                        <div class="col-md-2" style="text-align: center">
+                            <img th:src="${p.getProductImg()}" class="card-img" style="max-height: 150px; width: auto; max-width: 150px; display: inline-block;">
                         </div>
                         <div class="col-md-7">
                             <div class="card-body">
-                                <h5 class="card-title" th:text="${i.getItemName()}"></h5>
-                                <p class="card-text styleRow" th:text="${i.getItemDes()}"></p>
+                                <h5 class="card-title" th:text="${p.getProductName()}"></h5>
+                                <p class="card-text styleRow" th:text="${p.getProductDes()}"></p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
@@ -93,9 +92,9 @@
 
                             <div class="d-flex flex-column" style="height: 200px;">
                                 <div class="p-2">
-                                    <h3 style="display: block"> Cena: <p th:text="${i.getItemPrice()}"></p>
+                                    <h3 style="display: block">
+                                        Cena: <p th:text="${p.getProductPrice()}"></p>
                                     </h3>
-
                                 </div>
                                 <div class="mt-auto p-2"><button type="button" class="btn btn-primary btn-lg btn-block">Zobacz</button></div>
                             </div>
