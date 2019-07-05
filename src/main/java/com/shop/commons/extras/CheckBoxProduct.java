@@ -12,6 +12,7 @@ import java.util.Objects;
 public class CheckBoxProduct {
 
     private String nameCheckBox;
+    private int quantityOfProduct;
     private Boolean isCheck = false;
 
     @Override

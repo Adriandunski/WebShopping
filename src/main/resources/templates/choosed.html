@@ -20,15 +20,14 @@
         <div class="row">
             <div class="col-md-2">
 
-                <form th:action="@{/choosed/{param}/filters(param=${content.getContentName()})}" th:object="${company}" method="post" >
-                    <div class="chooser">
+                <form th:action="@{/choosed/{param}/filters(param=${content.getContentName()})}" th:object="${filters}" method="post" >
+                    <div class="chooser" th:each="f : ${features}">
                         <div class="chooser-header">
-                            <h5 th:text="${content.getContentName()}"></h5>
-                            <h5> Producenci</h5>
+                            <h5 th:text="${f.getSpecName()}"></h5>
                         </div>
                         <div class="chooser-buttons">
-                            <div class="form-check" th:each="p : ${producers}">
-                                <input class="form-check-input" type="checkbox" name="compa" th:checked="${p.getIsCheck()}" th:value="${p.getNameCheckBox()}">
+                            <div class="form-check" th:each="p : ${f.getSpecsProduct()}">
+                                <input class="form-check-input" type="checkbox" th:name="${f.getTypeSpec()}" th:checked="${p.getIsCheck()}" th:value="${p.getNameCheckBox()}">
                                 <label class="form-check-label" th:text="${p.getNameCheckBox()}">
                                     Intel
                                 </label>
@@ -37,40 +36,6 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Filtruj</button>
                 </form>
-
-                <div class="chooser">
-                    <div class="chooser-header">
-                        <h5> Liczba rdzeni</h5>
-                    </div>
-                    <div class="chooser-buttons">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios1" value="option1">
-                            <label class="form-check-label" for="gridRadios1">
-                                2
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option2">
-                            <label class="form-check-label" for="gridRadios2">
-                                4
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option3">
-                            <label class="form-check-label" for="gridRadios2">
-                                6
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gridRadios" id="gridRadios2" value="option4">
-                            <label class="form-check-label" for="gridRadios2">
-                                8
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-primary btn-block">Filtruj</button>
 
             </div>
 

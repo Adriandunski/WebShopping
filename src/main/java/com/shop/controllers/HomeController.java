@@ -5,6 +5,7 @@ import com.shop.commons.extras.Company;
 import com.shop.models.Content;
 import com.shop.models.DtoModels.ProductDto;
 import com.shop.models.Product;
+import com.shop.models.SingleFeature;
 import com.shop.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,49 +33,92 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/choosed/{param}")
-    public String choosedPage(@PathVariable(value = "param") String product, Model model) {
+    public String choosedPage(@PathVariable(value = "param") String typOfProduct, Model model) {
 
-        Content content = new Content(product, productService.getProductsByCategoryDto(product));
+        Content content = new Content(typOfProduct, productService.getProductsByCategoryDto(typOfProduct));
         model.addAttribute("content", content);
 
-        List<CheckBoxProduct> producers = productService.getProducersByProduct(product);
-        model.addAttribute("producers", producers);
+        List<SingleFeature> features = productService.getFeatursByProduct(typOfProduct);
+        model.addAttribute("features", features);
 
         return "choosed";
     }
 
     @PostMapping("/choosed/{param}/filters")
-    public String postDrinks(@ModelAttribute("company") Company companys,@PathVariable(value = "param") String product, Model model) {
+    public String postDrinks(@ModelAttribute("filters") Company filters,@PathVariable(value = "param") String product, Model model) {
 
 
         Content filtredContent = new Content(product, productService.getProductsByCategoryDto(product));
-        List<CheckBoxProduct> producers = productService.getProducersByProduct(product);
+        List<SingleFeature> features = productService.getFeatursByProduct(product);
+        boolean changes = false;
 
-
-
-        List<CheckBoxProduct> filtrs;
-
-        if (companys.getCompa() != null) {
-            filtredContent = new Content(product, productService.getFiltredProductDto(companys.getCompa(), product));
-
-            filtrs = companys.getCompa().stream().map( filtr -> {
-                return CheckBoxProduct
-                        .builder()
-                        .nameCheckBox(filtr)
-                        .isCheck(true)
-                        .build();
+        if (filters.getProducers() != null) {
+            changes = true;
+            List<CheckBoxProduct> producerChecks = filters.getProducers().stream().map(x -> {
+                return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
+            for (int i = 0; i < features.size(); i++) {
 
-            for(int i = 0; i < producers.size(); i++) {
-                if(filtrs.contains(producers.get(i))) {
-                    producers.get(i).setIsCheck(true);
+                if (features.get(i).getTypeSpec().equals("producers")) {
+
+                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
+
+                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
+                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
+                        }
+                    }
                 }
             }
         }
 
+        if (filters.getColors() != null) {
+            changes = true;
+            List<CheckBoxProduct> producerChecks = filters.getColors().stream().map(x -> {
+                return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
+            }).collect(Collectors.toList());
+
+            for (int i = 0; i < features.size(); i++) {
+
+                if (features.get(i).getTypeSpec().equals("colors")) {
+
+                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
+
+                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
+                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (filters.getRams() != null) {
+            changes = true;
+            List<CheckBoxProduct> producerChecks = filters.getRams().stream().map(x -> {
+                return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
+            }).collect(Collectors.toList());
+
+            for (int i = 0; i < features.size(); i++) {
+
+                if (features.get(i).getTypeSpec().equals("rams")) {
+
+                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
+
+                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
+                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        filtredContent = new Content(product, productService.getFiltredProductDtoTest(filters, product));
+
+
         model.addAttribute("content", filtredContent);
-        model.addAttribute("producers", producers);
+        model.addAttribute("features", features);
 
         return "choosed";
     }
