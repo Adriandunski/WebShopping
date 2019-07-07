@@ -10,17 +10,10 @@ import java.util.List;
 @Builder
 public class Company {
 
+    private List<String> typeOfProduct;
     private List<String> producers;
     private List<String> colors;
     private List<String> rams;
-
-
-    public boolean isSomethingInFilter() {
-
-        if (producers != null || colors != null || rams != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    private List<String> cores;
+    private List<String> resolutions;
 }

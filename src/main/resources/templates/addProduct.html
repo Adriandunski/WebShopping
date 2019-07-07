@@ -19,7 +19,6 @@
 
 <div class="container">
 
-
         <div class="row" >
             <div class="col-4">
                 <div class="btn-group" role="group">
@@ -27,16 +26,8 @@
                         Dodaj Przedmiot
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" th:each="t : ${typesDto}" th:href="@{'/add/' + ${t.getTypeName()}}"  th:text="${t.getTypeName()}"></a>
-                    </div>
-                </div>
-
-                <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dodaj Kategorie
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        //<a class="dropdown-item" th:each="t : ${typesDto}" th:href="@{'/add/' + ${t.getTypeName()}}"  th:text="${t.getTypeName()}"></a>
+                        <a class="dropdown-item"> Laptop </a>
+                        <a class="dropdown-item"> Telefon </a>
                     </div>
                 </div>
             </div>
