@@ -21,101 +21,70 @@ public class Filters {
 
     public List<SingleFeature> getFiltredFeatures() {
 
-        if (filters.getProducers() != null) {
-            List<CheckBoxProduct> producerChecks = filters.getProducers().stream().map(x -> {
+        if (filters.getProductProducer() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProductProducer().stream().map(x -> {
                 return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
-            for (int i = 0; i < features.size(); i++) {
-
-                if (features.get(i).getTypeSpec().equals("producers")) {
-
-                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
-
-                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
-                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
-                        }
-                    }
-                }
-            }
+            loop("productProducer", productsChecks);
         }
 
-        if (filters.getColors() != null) {
-            List<CheckBoxProduct> producerChecks = filters.getColors().stream().map(x -> {
+        if (filters.getProductKolor() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProductKolor().stream().map(x -> {
                 return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
-            for (int i = 0; i < features.size(); i++) {
-
-                if (features.get(i).getTypeSpec().equals("colors")) {
-
-                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
-
-                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
-                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
-                        }
-                    }
-                }
-            }
+            loop("productKolor", productsChecks);
         }
 
-        if (filters.getRams() != null) {
-            List<CheckBoxProduct> producerChecks = filters.getRams().stream().map(x -> {
+        if (filters.getProduct_memory_ram() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProduct_memory_ram().stream().map(x -> {
                 return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
-            for (int i = 0; i < features.size(); i++) {
-
-                if (features.get(i).getTypeSpec().equals("rams")) {
-
-                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
-
-                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
-                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
-                        }
-                    }
-                }
-            }
+            loop("product_memory_ram", productsChecks);
         }
 
-        if (filters.getCores() != null) {
-            List<CheckBoxProduct> producerChecks = filters.getCores().stream().map(x -> {
+        if (filters.getProduct_procesor_cores() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProduct_procesor_cores().stream().map(x -> {
                 return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
-            for (int i = 0; i < features.size(); i++) {
-
-                if (features.get(i).getTypeSpec().equals("cores")) {
-
-                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
-
-                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
-                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
-                        }
-                    }
-                }
-            }
+            loop("product_procesor_cores", productsChecks);
         }
 
-        if (filters.getResolutions() != null) {
-            List<CheckBoxProduct> producerChecks = filters.getResolutions().stream().map(x -> {
+        if (filters.getProduct_screen_resolution() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProduct_screen_resolution().stream().map(x -> {
                 return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
             }).collect(Collectors.toList());
 
-            for (int i = 0; i < features.size(); i++) {
+            loop("product_screen_resolution", productsChecks);
+        }
 
-                if (features.get(i).getTypeSpec().equals("resolutions")) {
+        if (filters.getProductType() != null) {
+            List<CheckBoxProduct> productsChecks = filters.getProductType().stream().map(x -> {
+                return CheckBoxProduct.builder().nameCheckBox(x).isCheck(true).build();
+            }).collect(Collectors.toList());
 
-                    for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
-
-                        if(producerChecks.contains(features.get(i).getSpecsProduct().get(j))) {
-                            features.get(i).getSpecsProduct().get(j).setIsCheck(true);
-                        }
-                    }
-                }
-            }
+            loop("productType", productsChecks);
         }
 
         return features;
+    }
+
+    private void loop (String type, List<CheckBoxProduct> productsChecks) {
+
+        for (int i = 0; i < features.size(); i++) {
+
+            if (features.get(i).getTypeSpec().equals(type)) {
+
+                for(int j = 0; j < features.get(i).getSpecsProduct().size(); j++) {
+
+                    if(productsChecks.contains(features.get(i).getSpecsProduct().get(j))) {
+                        features.get(i).getSpecsProduct().get(j).setIsCheck(true);
+                    }
+                }
+            }
+        }
     }
 }

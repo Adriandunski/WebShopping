@@ -39,6 +39,10 @@ public class ProductService {
         return productRepositories.findProductByProductType(type);
     }
 
+    public Product saveProduct(ProductDto product) {
+        return productRepositories.save(productMapper.reverse(product));
+    }
+
     /**  DTO */
 
     public List<ProductDto> getProductsDto() {
@@ -49,10 +53,15 @@ public class ProductService {
     }
 
     public List<ProductDto> getProductsByCategoryDto(String type) {
-        return getProductsByCategory(type)
-                .stream()
-                .map(productMapper::map)
-                .collect(Collectors.toList());
+
+        if (type.equals("admin")) {
+            return getProductsDto();
+        } else {
+            return getProductsByCategory(type)
+                    .stream()
+                    .map(productMapper::map)
+                    .collect(Collectors.toList());
+        }
     }
 
 //    public List<SingleFeature> znajdzCechyDlaProdutkow(List<ProductDto> produkty, List<TypeEnum> listaCech) {
@@ -86,7 +95,7 @@ public class ProductService {
             cechyDlaWszystkichProdoktowDanejKategori.get(i).comapreTwoSingleFeature(cechyDlaPrzeFiltrowanychProduktów.get(i));
         }
 
-        Comparator<SingleFeature> com = Comparator.comparing(x -> x.getTypeSpec());
+        Comparator<SingleFeature> com = Comparator.comparing(x -> x.getOrder());
 
         return cechyDlaWszystkichProdoktowDanejKategori.stream().sorted(com).collect(Collectors.toList());
     }
@@ -95,7 +104,6 @@ public class ProductService {
     public List<SingleFeature> getFeatursByProduct(String typeOfProduct) {
 
         List<ProductDto> produkty = getProductsByCategoryDto(typeOfProduct);
-        List<TypeEnum> listaCech = featuresService.getOneFeatureByNameDto(typeOfProduct).getFeatures();
 
         return znajdzCechyDlaProdutkowTEST(produkty, typeOfProduct);
     }
@@ -105,36 +113,43 @@ public class ProductService {
         return getProductsByCategoryDto(productType)
                 .stream()
                 .filter( product -> {
-                    if (filtres.getProducers() != null) {
-                        return filtres.getProducers().contains(product.getProductProducer());
+                    if (filtres.getProductProducer() != null) {
+                        return filtres.getProductProducer().contains(product.getProductProducer());
                     } else {
                         return true;
                     }
                 })
                 .filter( product -> {
-                    if (filtres.getColors() != null) {
-                        return filtres.getColors().contains(product.getProductKolor());
+                    if (filtres.getProductKolor() != null) {
+                        return filtres.getProductKolor().contains(product.getProductKolor());
                     } else {
                         return true;
                     }
                 })
                 .filter( product -> {
-                    if (filtres.getRams() != null) {
-                        return filtres.getRams().contains(String.valueOf(product.getProduct_memory_ram()));
+                    if (filtres.getProduct_memory_ram() != null) {
+                        return filtres.getProduct_memory_ram().contains(String.valueOf(product.getProduct_memory_ram()));
                     } else {
                         return true;
                     }
                 })
                 .filter( product -> {
-                    if (filtres.getCores() != null) {
-                        return filtres.getCores().contains(String.valueOf(product.getProduct_procesor_Cores()));
+                    if (filtres.getProduct_procesor_cores() != null) {
+                        return filtres.getProduct_procesor_cores().contains(String.valueOf(product.getProduct_procesor_Cores()));
                     } else {
                         return true;
                     }
                 })
                 .filter( product -> {
-                    if (filtres.getResolutions() != null) {
-                        return filtres.getResolutions().contains(String.valueOf(product.getProduct_screen_resolution()));
+                    if (filtres.getProduct_screen_resolution() != null) {
+                        return filtres.getProduct_screen_resolution().contains(String.valueOf(product.getProduct_screen_resolution()));
+                    } else {
+                        return true;
+                    }
+                })
+                .filter( product -> {
+                    if (filtres.getProductType() != null) {
+                        return filtres.getProductType().contains(product.getType());
                     } else {
                         return true;
                     }

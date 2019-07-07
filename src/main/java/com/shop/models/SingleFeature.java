@@ -8,6 +8,7 @@ import com.shop.services.FeaturesService;
 import com.shop.services.ProductService;
 import lombok.*;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,27 +23,31 @@ public class SingleFeature{
 
     private String specName;
     private String typeSpec;
+    private int order;
     private List<CheckBoxProduct> specsProduct;
 
     public SingleFeature(TypeEnum obecnaCecha, List<ProductDto> produkty) {
         this.specName = obecnaCecha.getShowInWeb();
         this.typeSpec = obecnaCecha.getTypeSpec();
+        this.order = obecnaCecha.getOrder();
         znajdzWszystkieCechyProduktu(produkty);
     }
 
 
     private void znajdzWszystkieCechyProduktu(List<ProductDto> produkty) {
 
-        if (typeSpec.equals("producers")) {
+        if (typeSpec.equals("productProducer")) {
             specsProduct = new ArrayList<>(dodajFeatureDlaProducenta(produkty));
-        } else if (typeSpec.equals("colors")) {
+        } else if (typeSpec.equals("productKolor")) {
             specsProduct = new ArrayList<>(dodajFeatureDlaKoloru(produkty));
-        } else if (typeSpec.equals("rams")) {
+        } else if (typeSpec.equals("product_memory_ram")) {
             specsProduct = new ArrayList<>(dodajFeatureDlaRamu(produkty));
-        } else if (typeSpec.equals("cores")) {
+        } else if (typeSpec.equals("product_procesor_cores")) {
             specsProduct = new ArrayList<>(dodajFeatureDlaRdzeni(produkty));
-        } else if (typeSpec.equals("resolutions")) {
+        } else if (typeSpec.equals("product_screen_resolution")) {
             specsProduct = new ArrayList<>(dodajFeatureDlaRozdzielczosci(produkty));
+        } else if (typeSpec.equals("productType")) {
+            specsProduct = new ArrayList<>(dodajFeatureDlaTypu(produkty));
         }
     }
 
@@ -55,11 +60,11 @@ public class SingleFeature{
                     .nameCheckBox(p.getProductKolor())
                     .build();
 
-            String kolor = temp.getNameCheckBox();
+            String cecha = temp.getNameCheckBox();
             int c = 0;
 
             for (ProductDto obecnyProdukt : produkty) {
-                if (obecnyProdukt.getProductKolor().equals(kolor)) {
+                if (obecnyProdukt.getProductKolor().equals(cecha)) {
                     c++;
                 }
             }
@@ -67,12 +72,6 @@ public class SingleFeature{
             temp.setQuantityOfProduct(c);
 
             return temp;
-       }).distinct().filter(p -> {
-           if(p.getNameCheckBox() != null) {
-                return true;}
-           else {
-               return false;
-           }
        }).distinct().filter(p -> { if (p.getNameCheckBox().equals("null")) { return false; }
         else { return true; } }).collect(Collectors.toList());
     }
@@ -86,11 +85,11 @@ public class SingleFeature{
                     .nameCheckBox(p.getProductProducer())
                     .build();
 
-            String producent = temp.getNameCheckBox();
+            String cecha = temp.getNameCheckBox();
             int c = 0;
 
             for (ProductDto obecnyProdukt : produkty) {
-                if (obecnyProdukt.getProductProducer().equals(producent)) {
+                if (obecnyProdukt.getProductProducer().equals(cecha)) {
                     c++;
                 }
             }
@@ -98,12 +97,6 @@ public class SingleFeature{
             temp.setQuantityOfProduct(c);
 
             return temp;
-        }).distinct().filter(p -> {
-            if(p.getNameCheckBox() != null) {
-                return true;}
-            else {
-                return false;
-            }
         }).distinct().filter(p -> { if (p.getNameCheckBox().equals("null")) { return false; }
         else { return true; } }).collect(Collectors.toList());
     }
@@ -117,11 +110,11 @@ public class SingleFeature{
                     .nameCheckBox(String.valueOf(p.getProduct_memory_ram()))
                     .build();
 
-            String producent = temp.getNameCheckBox();
+            String cecha = temp.getNameCheckBox();
             int c = 0;
 
             for (ProductDto obecnyProdukt : produkty) {
-                if (String.valueOf(obecnyProdukt.getProduct_memory_ram()).equals(producent)) {
+                if (String.valueOf(obecnyProdukt.getProduct_memory_ram()).equals(cecha)) {
                     c++;
                 }
             }
@@ -142,11 +135,16 @@ public class SingleFeature{
                     .nameCheckBox(p.getProduct_procesor_Cores())
                     .build();
 
-            String producent = temp.getNameCheckBox();
+            String cecha = temp.getNameCheckBox();
             int c = 0;
 
             for (ProductDto obecnyProdukt : produkty) {
-                if(obecnyProdukt.getProduct_procesor_Cores().equals(producent)) {
+
+                if (obecnyProdukt.getProduct_procesor_Cores() == null) {
+                    obecnyProdukt.setProduct_procesor_Cores("null");
+                }
+
+                if(obecnyProdukt.getProduct_procesor_Cores().equals(cecha)) {
                     c++;
                 }
             }
@@ -154,8 +152,17 @@ public class SingleFeature{
             temp.setQuantityOfProduct(c);
 
             return temp;
-        }).distinct().filter(p -> { if (p.getNameCheckBox().equals("null")) { return false; }
-        else { return true; } }).collect(Collectors.toList());
+        }).distinct().filter(p -> {
+
+            try {
+                if (p.getNameCheckBox().equals("null")) { return false; }
+            } catch (Exception e) {
+
+            }
+
+            return true;
+
+        }).collect(Collectors.toList());
     }
 
     private List<CheckBoxProduct> dodajFeatureDlaRozdzielczosci(List<ProductDto> produkty) {
@@ -167,11 +174,36 @@ public class SingleFeature{
                     .nameCheckBox(p.getProduct_screen_resolution())
                     .build();
 
-            String producent = temp.getNameCheckBox();
+            String cecha = temp.getNameCheckBox();
             int c = 0;
 
             for (ProductDto obecnyProdukt : produkty) {
-                if(obecnyProdukt.getProduct_screen_resolution().equals(producent)) {
+                if(obecnyProdukt.getProduct_screen_resolution().equals(cecha)) {
+                    c++;
+                }
+            }
+
+            temp.setQuantityOfProduct(c);
+
+            return temp;
+        }).distinct().filter(p -> { if (p.getNameCheckBox().equals("null")) { return false; }
+        else { return true; } }).collect(Collectors.toList());
+    }
+
+    private List<CheckBoxProduct> dodajFeatureDlaTypu(List<ProductDto> produkty) {
+
+        return produkty.stream().map( p -> {
+
+            CheckBoxProduct temp = CheckBoxProduct
+                    .builder()
+                    .nameCheckBox(p.getType())
+                    .build();
+
+            String cecha = temp.getNameCheckBox();
+            int c = 0;
+
+            for (ProductDto obecnyProdukt : produkty) {
+                if(obecnyProdukt.getType().equals(cecha)) {
                     c++;
                 }
             }
@@ -196,7 +228,11 @@ public class SingleFeature{
             CheckBoxProduct temp = posortowaneCheckoxy.get(i);
 
             int box = specsProduct.indexOf(temp);
-            specsProduct.get(box).setQuantityOfProduct(temp.getQuantityOfProduct());
+            try {
+                specsProduct.get(box).setQuantityOfProduct(temp.getQuantityOfProduct());
+            } catch (Exception e) {
+
+            }
         }
     }
 

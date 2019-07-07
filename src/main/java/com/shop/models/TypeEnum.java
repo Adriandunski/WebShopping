@@ -4,18 +4,25 @@ import lombok.Data;
 
 public enum  TypeEnum {
 
-    PRODUCER("producers", "Producenci"),
-    COLOR("colors", "Kolory:"),
-    RAM("rams", "Pamięć Ram:"),
-    CORE("cores", "Rdzenie:"),
-    RESOLU("resolutions", "Rozdzielczość:");
+    TYPEPRODUCT("productType", "Typ Produktu:", 1),
+    PRODUCER("productProducer", "Producenci", 2),
+    COLOR("productKolor", "Kolory:", 3),
+    RAM("product_memory_ram", "Pamięć Ram:", 4),
+    CORE("product_procesor_cores", "Rdzenie:", 5),
+    RESOLU("product_screen_resolution", "Rozdzielczość:", 6);
 
     private String typeSpec;
     private String showInWeb;
+    private int order;
 
-    TypeEnum(String typeSpec, String showInWeb) {
+    TypeEnum(String typeSpec, String showInWeb, int order) {
         this.typeSpec = typeSpec;
         this.showInWeb = showInWeb;
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
     }
 
     public String getTypeSpec() {

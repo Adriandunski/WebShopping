@@ -34,4 +34,9 @@ public class ProductController {
             return productService.getAllProducts();
         }
     }
+
+    @GetMapping("/productsDto")
+    public List<ProductDto> getProductsDto() {
+        return productService.getProductsDto();
+    }
 }

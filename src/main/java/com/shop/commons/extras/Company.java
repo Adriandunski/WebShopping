@@ -10,10 +10,10 @@ import java.util.List;
 @Builder
 public class Company {
 
-    private List<String> typeOfProduct;
-    private List<String> producers;
-    private List<String> colors;
-    private List<String> rams;
-    private List<String> cores;
-    private List<String> resolutions;
+    private List<String> productType;
+    private List<String> productProducer;
+    private List<String> productKolor;
+    private List<String> product_memory_ram;
+    private List<String> product_procesor_cores;
+    private List<String> product_screen_resolution;
 }

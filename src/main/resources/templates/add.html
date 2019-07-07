@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Web Shop</title>
+    <title>Cosmic App</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -16,20 +16,24 @@
     <link rel="stylesheet" type="text/css" href="../static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h3 th:text="${cechy.getTypeName()}" style="text-align: center"></h3>
 
-        <form th:action="@{/admin/addProduct/} + ${cechy.getTypeName()}" th:object="${product}" method="post">
-            <div class="row justify-content-md-center" th:each="f : ${cechy.getFeatures()}">
-                <div class="column">
-                    <label th:for="${f.getTypeSpec()}" th:text="${f.getShowInWeb()}">Nazwa użytkownika</label>
-                    <div class="input-group">
-                        <input type="text" th:id="${f.getTypeSpec()}" th:name="${f.getTypeSpec()}" class="form-control">
+<div class="container">
+
+        <div class="row" >
+            <div class="col-4">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dodaj Przedmiot
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item"> Laptop </a>
+                        <a class="dropdown-item"> Telefon </a>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Dodaj</button>
-        </form>
-    </div>
+        </div>
+
+</div>
 </body>
 </html>
+

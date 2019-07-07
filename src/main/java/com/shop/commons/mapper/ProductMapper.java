@@ -45,7 +45,24 @@ public class ProductMapper implements MapperDto<Product, ProductDto>{
 
     @Override
     public Product reverse(ProductDto to) {
-        return null;
+        return Product
+                .builder()
+                .productName(to.getProductName())
+                .productImg(to.getProductImg())
+                .productPrice(to.getProductPrice())
+                .productProducer(to.getProductProducer())
+                .productDes(to.getProductDes())
+                .productKolor(to.getProductKolor())
+                .productType(to.getType())
+                .productProcesor(to.getProductProcesor())
+                .productProcesorMhz(to.getProductProcesorMhz())
+                .product_procesor_Cores(to.getProduct_procesor_Cores())
+                .product_memory_ram(to.getProduct_memory_ram())
+                .product_disk(to.getProduct_disk())
+                .product_graphic_card(to.getProduct_graphic_card())
+                .product_screen_cal(to.getProduct_screen_cal())
+                .product_screen_resolution(to.getProduct_screen_resolution())
+                .build();
     }
 
     private enum categoriesToStringList implements Function<Category, String> {

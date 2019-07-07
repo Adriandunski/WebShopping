@@ -21,6 +21,9 @@ public class Features {
     @Column(name = "product_feature")
     private String productFeature;
 
+    @Column(name = "order_feature")
+    private Long order;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "features")
     Set<Type> types = new HashSet<>();
