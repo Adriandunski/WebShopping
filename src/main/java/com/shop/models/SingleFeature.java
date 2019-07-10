@@ -7,11 +7,14 @@ import com.shop.models.DtoModels.TypeDto;
 import com.shop.services.FeaturesService;
 import com.shop.services.ProductService;
 import lombok.*;
+import org.hibernate.annotations.Check;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -50,6 +53,8 @@ public class SingleFeature{
             specsProduct = new ArrayList<>(dodajFeatureDlaTypu(produkty));
         }
     }
+
+
 
     private List<CheckBoxProduct> dodajFeatureDlaKoloru(List<ProductDto> produkty) {
 
@@ -123,7 +128,15 @@ public class SingleFeature{
 
             return temp;
         }).distinct().filter(p -> { if (p.getNameCheckBox().equals("null")) { return false; }
-            else { return true; } }).collect(Collectors.toList());
+            else { return true; } }).sorted( (o1, o2) -> {
+            if (Integer.parseInt(o1.getNameCheckBox()) > Integer.parseInt(o2.getNameCheckBox())) {
+                return 1;
+            } else if (Integer.parseInt(o1.getNameCheckBox()) < Integer.parseInt(o2.getNameCheckBox())) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }).collect(Collectors.toList());
     }
 
     private List<CheckBoxProduct> dodajFeatureDlaRdzeni(List<ProductDto> produkty) {
@@ -140,12 +153,12 @@ public class SingleFeature{
 
             for (ProductDto obecnyProdukt : produkty) {
 
-                if (obecnyProdukt.getProduct_procesor_Cores() == null) {
+                try {
+                    if(obecnyProdukt.getProduct_procesor_Cores().equals(cecha)) {
+                        c++;
+                    }
+                } catch (NullPointerException e) {
                     obecnyProdukt.setProduct_procesor_Cores("null");
-                }
-
-                if(obecnyProdukt.getProduct_procesor_Cores().equals(cecha)) {
-                    c++;
                 }
             }
 
@@ -155,13 +168,26 @@ public class SingleFeature{
         }).distinct().filter(p -> {
 
             try {
-                if (p.getNameCheckBox().equals("null")) { return false; }
+                if (p.getNameCheckBox().equals("null")) {
+                    return false;
+                }
             } catch (Exception e) {
-
+                return false;
             }
 
             return true;
 
+        }).sorted(new Comparator<CheckBoxProduct>() {
+            @Override
+            public int compare(CheckBoxProduct o1, CheckBoxProduct o2) {
+                if (Integer.parseInt(o1.getNameCheckBox()) > Integer.parseInt(o2.getNameCheckBox())) {
+                    return 1;
+                } else if (Integer.parseInt(o1.getNameCheckBox()) < Integer.parseInt(o2.getNameCheckBox())) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
         }).collect(Collectors.toList());
     }
 

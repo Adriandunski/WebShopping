@@ -1,30 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Web Shop</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Teko:400,700" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400i&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
+<head th:replace="staticTemplates/head :: head_section"></head>
 <body>
+
+<nav th:replace="staticTemplates/navAdmin :: nav_section"></nav>
+
     <div class="container">
         <h3 th:text="${cechy.getTypeName()}" style="text-align: center"></h3>
 
         <form th:action="@{/admin/addProduct/} + ${cechy.getTypeName()}" th:object="${product}" method="post">
+            <div class="row justify-content-md-center">
+                <div class="column">
+                    <label th:for="productName">Nazwa Produktu</label>
+                    <div class="input-group">
+                        <input type="text" th:id="productName" th:name="productName" class="form-control">
+                    </div>
+                </div>
+            </div>
             <div class="row justify-content-md-center" th:each="f : ${cechy.getFeatures()}">
                 <div class="column">
                     <label th:for="${f.getTypeSpec()}" th:text="${f.getShowInWeb()}">Nazwa użytkownika</label>
                     <div class="input-group">
                         <input type="text" th:id="${f.getTypeSpec()}" th:name="${f.getTypeSpec()}" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="column">
+                    <label th:for="productImg">Url do zdjęcia</label>
+                    <div class="input-group">
+                        <input type="text" th:id="productImg" th:name="productImg" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="column">
+                    <label th:for="productPrice">Cena</label>
+                    <div class="input-group">
+                        <input type="" th:id="productPrice" step="0.01" th:name="productPrice" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="column">
+                    <label th:for="productDes">Opis</label>
+                    <div class="input-group">
+                        <textarea rows="4" id="productDes" th:name="productDes" placeholder="Krótki opis" class="form-control"></textarea>
                     </div>
                 </div>
             </div>

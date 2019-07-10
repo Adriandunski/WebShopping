@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="staticTemplates/head :: head_section"></head>
+<body>
+
+<nav th:replace="staticTemplates/navAdmin :: nav_section"></nav>
+
+<div class="container">
+    <h3 th:text="${cechy.getTypeName()}" style="text-align: center"></h3>
+
+    <form th:action="@{/admin/update/}" th:object="${product}" method="post">
+        <div class="row justify-content-md-center">
+            <div class="column">
+                <label th:for="productName">Nazwa Produktu</label>
+                <div class="input-group">
+                    <input type="text" th:id="productName" th:name="productName" th:value="${product.getProductName()}" class="form-control">                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center" th:each="f : ${cechy.getFeatures()}">
+            <div class="column">
+                <label th:for="${f.getTypeSpec()}" th:text="${f.getShowInWeb()}">Nazwa użytkownika</label>
+                <div class="input-group">
+                    <input type="text" th:id="${f.getTypeSpec()}" th:name="${f.getTypeSpec()}" th:value="${f.getField()}" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="column">
+                <label th:for="productImg">Url do zdjęcia</label>
+                <div class="input-group">
+                    <input type="text" th:id="productImg" th:name="productImg" th:value="${product.getProductImg()}" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="column">
+                <label th:for="productPrice">Cena</label>
+                <div class="input-group">
+                    <input type="" th:id="productPrice" step="0.01" th:name="productPrice" th:value="${product.getProductPrice()}" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="column">
+                <label th:for="productDes">Opis</label>
+                <div class="input-group">
+                    <textarea rows="4" id="productDes"  th:name="productDes"  th:text="${product.getProductDes()}" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+</div>
+</body>
+</html>
