@@ -1,21 +1,29 @@
 package com.shop.security.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="role_id")
-    private int roleid;
-    private String roleName;
+    private int roleId;
+    private String role;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<UserApp> users = new HashSet<>();
-
 }

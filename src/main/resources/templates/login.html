@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="staticTemplates/head :: head_section" >
+
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <h4>Logowanie</h4>
+            <form th:action="@{/signin}" method="post">
+
+                <div class="form-row">
+                    <div class="col-md-6 col-sm-12 mb-3 form-group">
+                        <label for="username">Nazwa użytkownika</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" id="username" name="username" placeholder="Username" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3 form-group">
+                        <label for="password">Hasło</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+                </div>
+
+
+
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Zaloguj sie</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -6,12 +6,14 @@ import com.shop.models.DtoModels.ProductDto;
 import com.shop.models.DtoModels.TypeDto;
 import com.shop.services.FeaturesService;
 import com.shop.services.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@PreAuthorize("hasRole('ADMIN')")
 @Controller
 public class AdminController {
 

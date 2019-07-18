@@ -21,6 +21,7 @@ public class UserApp {
 
     private String username;
     private String password;
+    private int active;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -29,4 +30,11 @@ public class UserApp {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    public UserApp(UserApp userApp) {
+        this.username = userApp.getUsername();
+        this.password = userApp.getPassword();
+        this.active = userApp.getActive();
+        this.roles = userApp.getRoles();
+    }
 }
